@@ -290,10 +290,14 @@ class LaraTeX
     private function generate()
     {
         $fileName = Str::random(10);
-        $basetmpfname = tempnam(storage_path($this->tempPath), $fileName);
-        $tmpfname = preg_replace('/\\.[^.\\s]{3,4}$/', '', $basetmpfname);
+        $storageRoot = base_path('storage/' . ltrim($this->tempPath, '/'));
+        if (!is_dir($storageRoot)) {
+            mkdir($storageRoot, 0777, true);
+        }
+        $basetmpfname = tempnam($storageRoot, $fileName);
+        $tmpfname = preg_replace('/\.[^.\s]{3,4}$/', '', $basetmpfname);
         rename($basetmpfname, $tmpfname);
-        $tmpDir = storage_path($this->tempPath);
+        $tmpDir = $storageRoot;
         chmod($tmpfname, 0777);
 
         File::put($tmpfname, $this->renderedTex);
