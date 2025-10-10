@@ -370,7 +370,7 @@ class LaraTeX
         $texFileExtension = $tmpfname . '.tex';
         $error = null;
         if (!File::exists($logFile)) {
-            throw new LaratexException($error,"Log file does not found.");
+            throw new LaratexException("Log file does not found.");
         }else{
             $error = File::get($logFile);
         }

@@ -4,7 +4,6 @@ namespace Skyplan\DeskbriefLatex;
 
 use Skyplan\DeskbriefLatex\LaraTeX;
 use Skyplan\DeskbriefLatex\LaratexEmptyCollectionException;
-use Skyplan\DeskbriefLatex\LaratexException;
 use Skyplan\DeskbriefLatex\LaratexZipFailedException;
 use Illuminate\Support\Str;
 
