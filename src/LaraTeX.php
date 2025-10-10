@@ -290,8 +290,16 @@ class LaraTeX
     private function generate()
     {
         $fileName = Str::random(10);
-        //$storageRoot = $_SERVER['DOCUMENT_ROOT'] . '/../storage/' . ltrim($this->tempPath, '/');
-        $storageRoot = base_path('storage/' . ltrim($this->tempPath, '/'));
+        // Use Laravel base_path() if available, otherwise fallback to relative path from package
+        if (function_exists('base_path')) {
+            $storageRoot = base_path('storage/' . ltrim($this->tempPath, '/'));
+        } else {
+            // Fallback: go up from package src/ to project root
+            $storageRoot = realpath(__DIR__ . '/../../../../storage/' . ltrim($this->tempPath, '/'));
+            if ($storageRoot === false) {
+                $storageRoot = __DIR__ . '/../../../../storage/' . ltrim($this->tempPath, '/');
+            }
+        }
         if (!is_dir($storageRoot)) {
             mkdir($storageRoot, 0777, true);
         }
