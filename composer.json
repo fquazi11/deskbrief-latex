@@ -1,0 +1,24 @@
+{
+    "name": "skyplan/deskbrief-latex",
+    "type": "library",
+    "description": "A LaTeX rendering engine for Deskbrief.Latex minimum version is XeLaTeX or Advanced version is a mandate requirement for this package to work properly.",
+    "require": {
+        "illuminate/support": "^5.0",
+        "illuminate/filesystem": "^5.0",
+        "laravel/framework": ">=5.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Skyplan\\DeskbriefLatex\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tharanga Jayasinghe",
+            "email": "tja@skyplan.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
