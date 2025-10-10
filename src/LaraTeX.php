@@ -290,7 +290,8 @@ class LaraTeX
     private function generate()
     {
         $fileName = Str::random(10);
-        $storageRoot = base_path('storage/' . ltrim($this->tempPath, '/'));
+        $storageRoot = $_SERVER['DOCUMENT_ROOT'] . '/../storage/' . ltrim($this->tempPath, '/');
+        //$storageRoot = base_path('storage/' . ltrim($this->tempPath, '/'));
         if (!is_dir($storageRoot)) {
             mkdir($storageRoot, 0777, true);
         }
