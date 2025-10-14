@@ -314,7 +314,7 @@ class LaraTeX
             }
 
             $status=exec($cmd,$output,$result_code);
-            File::append($debugLogFile, "[" . date('Y-m-d H:i:s') . "] Exec status: $status, result_code: $result_code\n");
+            File::append($debugLogFile, "[" . date('Y-m-d H:i:s') . "] Exec status: $status, result_code: $result_code\n".implode("\n", $output) . "\n");
             if ($result_code>0 && $status==false) {
                 \Event::dispatch(new LaratexPdfFailed($fileName, 'download', $this->metadata));
                 $this->parseError($tmpfname, $output);
