@@ -69,6 +69,7 @@ class LaraTeX
     protected $bibTexPath;
     protected $tempPath;
     protected $doTeardown = true;
+    protected $timeout = 120;
 
     /**
      * Construct the instance
@@ -78,10 +79,11 @@ class LaraTeX
      */
     public function __construct($stubPath = null, $metadata = null)
     {
-        $this->binPath = '/usr/bin/xelatex';
-        $this->tempPath = '/app/';
-        $this->bibTexPath = '/usr/bin/bibtex';
-        $this->doTeardown = false;
+        $this->binPath = config('laratex.binPath');
+        $this->tempPath = config('laratex.tempPath');
+        $this->bibTexPath = config('laratex.bibTexPath');
+        $this->doTeardown = config('laratex.teardown');
+        $this->timeout = config('laratex.timeout', 120);
         if ($stubPath instanceof RawTex) {
             $this->isRaw = true;
             $this->renderedTex = $stubPath->getTex();
