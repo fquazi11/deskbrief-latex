@@ -11,6 +11,6 @@ return [
 		'tempPath' => 'app/',
 	
 		// boolean to define if log, aux and tex files should be deleted after generating PDF
-		'teardown' => true,
+		'teardown' => false,
 	
 ];
