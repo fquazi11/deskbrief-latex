@@ -297,23 +297,24 @@ class LaraTeX
         rename($basetmpfname, $tmpfname);
         $tmpDir = storage_path($this->tempPath);
         chmod($tmpfname, 0777);
+        $debugLogFile = storage_path($this->tempPath) . '/laratex_debug.log';
+        File::append($debugLogFile, "[" . date('Y-m-d H:i:s') . "] Starting PDF generation\n");
 
         File::put($tmpfname, $this->renderedTex);
 
         $program    = $this->binPath ? $this->binPath : 'pdflatex';
         $cmd        = "$program '-output-directory' $tmpDir $tmpfname";
-
+        File::append($debugLogFile, "[" . date('Y-m-d H:i:s') . "] Command to execute: $cmd\n");
         for ($i = 1; $i <= $this->compileAmount; $i++) {
-
+            File::append($debugLogFile, "[" . date('Y-m-d H:i:s') . "] Compile round: $i\n");
             // BibTeX must be run after the first generation of the LaTeX file.
             if ($i === 2 && $this->generateBibtex) {
-               // $bibtex = new Process([$this->bibTexPath, basename($tmpfname)], $tmpDir);
-               // $bibtex->run($this->bibTexPath ." ".basename($tmpfname));
                 shell_exec($this->bibTexPath ." ".basename($tmpfname));
+                File::append($debugLogFile, "[" . date('Y-m-d H:i:s') . "] Ran BibTeX\n");
             }
 
             $status=exec($cmd,$output,$result_code);
-
+            File::append($debugLogFile, "[" . date('Y-m-d H:i:s') . "] Exec status: $status, result_code: $result_code\n");
             if ($result_code>0 && $status==false) {
                 \Event::dispatch(new LaratexPdfFailed($fileName, 'download', $this->metadata));
                 $this->parseError($tmpfname, $output);
@@ -329,6 +330,7 @@ class LaraTeX
                 File::delete($tmpfname . '.pdf');
             }
         });
+        File::append($debugLogFile, "[" . date('Y-m-d H:i:s') . "] PDF generation finished\n");
 
         return $tmpfname . '.pdf';
     }
