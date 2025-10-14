@@ -99,9 +99,10 @@ class LaraTeX
      *
      * @return LaraTeX
      */
-    public function compileAmount($compileAmount){
+    public function compileAmount($compileAmount)
+    {
 
-        if(is_integer($compileAmount)){
+        if (is_integer($compileAmount)) {
             $this->compileAmount = $compileAmount;
         }
 
@@ -305,14 +306,14 @@ class LaraTeX
 
             // BibTeX must be run after the first generation of the LaTeX file.
             if ($i === 2 && $this->generateBibtex) {
-               // $bibtex = new Process([$this->bibTexPath, basename($tmpfname)], $tmpDir);
-               // $bibtex->run($this->bibTexPath ." ".basename($tmpfname));
-                shell_exec($this->bibTexPath ." ".basename($tmpfname));
+                // $bibtex = new Process([$this->bibTexPath, basename($tmpfname)], $tmpDir);
+                // $bibtex->run($this->bibTexPath ." ".basename($tmpfname));
+                shell_exec($this->bibTexPath . " " . basename($tmpfname));
             }
 
-            $status=exec($cmd,$output,$result_code);
+            $status = exec($cmd, $output, $result_code);
 
-            if ($result_code>0 && $status==false) {
+            if ($result_code > 0 && $status == false) {
                 \Event::dispatch(new LaratexPdfFailed($fileName, 'download', $this->metadata));
                 $this->parseError($tmpfname, $output);
             }
@@ -341,10 +342,10 @@ class LaraTeX
     private function teardown($tmpfname)
     {
         if (File::exists($tmpfname)) {
-           // File::delete($tmpfname);
+            // File::delete($tmpfname);
         }
 
-        $extensions = ['aux', 'out', 'bbl', 'blg', 'toc','log'];
+        $extensions = ['aux', 'out', 'bbl', 'blg', 'toc', 'log'];
 
         foreach ($extensions as $extension) {
             if (File::exists($tmpfname . '.' . $extension)) {
@@ -370,8 +371,8 @@ class LaraTeX
         $texFileExtension = $tmpfname . '.tex';
         $error = null;
         if (!File::exists($logFile)) {
-            throw new LaratexException($error,"Log file does not found.");
-        }else{
+            throw new LaratexException($error, 200, null);
+        } else {
             $error = File::get($logFile);
         }
 
